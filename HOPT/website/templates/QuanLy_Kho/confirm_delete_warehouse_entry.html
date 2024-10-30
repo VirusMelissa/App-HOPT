@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Xác nhận xóa</title>
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/confirm_delete_warehouse_entry.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Xác nhận xóa</h1>
+        <div class="info-box">
+            <div class="info-row">
+                <span class="label">Mã hàng:</span>
+                <span class="value">{{ entry.products.product_code }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Ngày nhập:</span>
+                <span class="value">{{ entry.entry_date|date:"d/m/Y" }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Số lượng:</span>
+                <span class="value">{{ entry.quantity }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Nhà Cung Cấp:</span>
+                <span class="value">{{ entry.suppliers.supplier_name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Số Phiếu Nhập:</span>
+                <span class="value">{{ entry.warehouse_receipts.warehouse_receipt_number }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Mã Bill:</span>
+                <span class="value">{{ entry.bills.bill_code }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Số Hợp Đồng:</span>
+                <span class="value">{{ entry.contracts.contract_number }}</span>
+            </div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="confirm-btn">Xác nhận</button>
+            <a href="{% url 'warehouse_entry' %}" class="cancel-btn">Hủy</a>
+        </form>
+    </div>
+</body>
+</html>

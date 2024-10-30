@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <script src="{% static 'js/show_tooltip_login.js' %}"></script>
+    <title>Đăng Nhập</title>
+</head>
+
+<body>
+    <div class="login-container">
+        <img src="{% static 'images/logo.png' %}" alt="Logo Công Ty" class="logo">
+        <h2>Đăng Nhập</h2>
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username">Tên người dùng:</label>
+                <input type="text" name="username" id="id_username" autocomplete="off" required>
+                <div class="tooltip" id="username-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password">Mật khẩu:</label>
+                <input type="password" name="password" id="id_password" autocomplete="off" required>
+                <div class="tooltip" id="password-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+       
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            {% if error_message %}
+                <div class="error-message">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+
+            <button type="submit">Đăng Nhập</button>
+            <p><a href="{% url 'password_reset' %}">Quên mật khẩu?</a></p>
+        </form>
+    </div>
+</body>
+
+</html>

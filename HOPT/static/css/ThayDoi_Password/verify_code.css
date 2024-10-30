@@ -1,0 +1,151 @@
+/* Tương tự với file login.css, giữ nguyên phong cách và chỉ điều chỉnh theo nội dung */
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/background.jpg');  /*Đường dẫn đến hình ảnh nền */
+    background-size: cover; /* Đảm bảo hình ảnh phủ kín màn hình */
+    background-position: center; /* Căn giữa hình ảnh */
+    /* background: linear-gradient(135deg, #4976b9, #4472b7, #3e6db4, #3769b4, #3165b3, #2c61b1, #265cae, #1f59b1, #1754b1, #114fad); */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: left;
+    position: relative;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2193b0;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 18px;
+    flex-basis: 220px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"] {
+    flex-basis: 220px;
+    padding: 8px;
+    border: 2px solid #2193b0;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+button {
+    background-color: #2193b0;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #6dd5ed;
+}
+
+/* Thiết kế nút a */
+a.back-btn {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none; /* gạch dưới tắt */
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+a.back-btn:hover {
+    background-color: #45a049;
+    text-decoration: none; /* Giữ nút không gạch chân khi hover */
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: #ff4d4d;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #ff4d4d transparent transparent;
+}
+
+.tooltip.show .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+p {
+    margin-top: 15px;
+    text-align: center;
+}

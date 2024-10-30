@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/warehouse_entry.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_drop_down" />
+    <script src="{% static 'js/QuanLy_Kho/filter_dialog.js' %}"></script>
+    <script src="{% static 'js/chatbox_dialog.js' %}"></script>
+    <title>Quản Lý Kho</title>
+</head>
+
+<body>
+    <script>
+        var fullname = "{{ request.session.fullname|default:'' }}";
+    </script>
+    <div class="sidebar">
+        <ul>
+            <li><a href="#"><span class="icon"><i class="fas fa-warehouse"></i></span><span class="content">Kho Hàng</span></a></li>
+            <li><a href="{% url 'warehouse_entry' %}"><span class="icon"><i class="fas fa-plus-circle"></i></span><span class="content">Nhập Kho</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-arrow-right"></i></span><span class="content">Xuất Kho</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-shopping-cart"></i></span><span class="content">Đặt Hàng</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-box"></i></span><span class="content">Tồn Kho</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-chart-bar"></i></span><span class="content">Báo Cáo</span></a></li>
+        </ul>
+    </div>
+
+
+    <div class="container">
+        <div class="header">
+            <h1>Quản Lý Kho - Nhập Kho</h1>
+            <div class="btn-container">
+                <a href="{% url 'add_warehouse_entry' %}?page={{ list.number }}&sort={{ sort_by }}&order={{ sort_order }}&items_per_page={{ items_per_page }}&year_sub={{ selected_years_sub }}&year_main={{ selected_years_main }}&product_type={{ selected_product_types }}&search_sub={{ search_query_sub }}&search_main={{ search_query_main }}" class="create-btn">Thêm hàng nhập kho</a>
+                <a href="{% url 'warehouse_entry' %}" class="refresh-btn">Tải lại trang</a>
+                <button type="button" id="chatButton" data-department="warehouse" onclick="openChatDialog(this)">
+                    <i class="far fa-comment"></i> Chat
+                </button>
+        
+                <input type="hidden" id="currentUser" value="{{ request.user.username }}">
+                
+                <div id="chatDialog" class="chatdialog" data-department="">
+                    <div class="chatdialog-content">
+                        <span class="close" onclick="closeChatDialog()">&times;</span>
+                        <div id="chatMessages" class="chat-messages"></div>
+                        <div class="chat-input-area">
+                            <textarea id="chatInput" placeholder="Nhập tin nhắn..."></textarea>
+                            <button type="button" onclick="sendMessage()">Gửi</button>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'index' %}" class="home-btn">Về trang chủ</a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="search-filter">
+                <div class="search-main-container">
+                    <form method="get" action="{% url 'warehouse_entry' %}" id="searchMainForm">
+                        {% if list.number %}<input type="hidden" name="page" value="{{ list.number }}">{% endif %}
+                        {% if sort_by %}<input type="hidden" name="sort" value="{{ sort_by }}">{% endif %}
+                        {% if sort_order %}<input type="hidden" name="order" value="{{ sort_order }}">{% endif %}
+                        {% if items_per_page %}<input type="hidden" name="items_per_page" value="{{ items_per_page }}">{% endif %}
+                        {% if selected_year_sub %}<input type="hidden" name="year_sub" value="{{ selected_year_sub }}">{% endif %}
+                        {% if selected_years_main %}<input type="hidden" name="year_main" value="{{ selected_years_main }}">{% endif %}
+                        {% if selected_product_types %}<input type="hidden" name="product_type" value="{{ selected_product_types }}">{% endif %}
+                        {% if search_sub %}<input type="hidden" name="search_sub" value="{{ search_sub }}">{% endif %}
+                        <input type="text" name="search_main" placeholder="Nhập từ khóa..." value="{{ search_main }}">
+                        <button type="submit">Tìm kiếm</button> 
+                    </form>
+                </div>
+                
+                <div class="filter-container">
+                    <form method="get" action="{% url 'warehouse_entry' %}" id="filterForm">
+                        {% if list.number %}<input type="hidden" name="page" value="{{ list.number }}">{% endif %}
+                        {% if sort_by %}<input type="hidden" name="sort" value="{{ sort_by }}">{% endif %}
+                        {% if sort_order %}<input type="hidden" name="order" value="{{ sort_order }}">{% endif %}
+                        {% if items_per_page %}<input type="hidden" name="items_per_page" value="{{ items_per_page }}">{% endif %}
+                        {% if selected_year_sub %}<input type="hidden" name="year_sub" value="{{ selected_year_sub }}"> {% endif %}
+                        
+                        <button type="button" id="yearButton" onclick="openYearDialog()">
+                            Năm <span class="material-symbols-outlined">arrow_drop_down</span>
+                        </button>
+                        <button type="button" id="productTypeButton" onclick="openProductTypeDialog()">
+                            Loại hàng <span class="material-symbols-outlined">arrow_drop_down</span>
+                        </button>
+                        <button type="button" id="submitButton" onclick="applyFilters()">Lưu bộ lọc</button>
+                        
+                        {% if search_main %}<input type="hidden" name="search_main" value="{{ search_main }}">{% endif %}
+                        {% if search_sub %}<input type="hidden" name="search_sub" value="{{ search_sub }}">{% endif %}
+                    </form>
+                </div>
+                
+            </div>
+
+            <!-- Hộp thoại chọn năm -->
+            <div id="yearDialog" class="dialog">
+                <div class="dialog-content">
+                    <span class="close" onclick="closeYearDialog()">&times;</span>
+                    <!-- Nút đóng -->
+                    <input type="text" id="yearFilterInput" placeholder="Tìm kiếm năm..." onkeyup="filterYears()">
+                    <form id="yearForm">
+                        {% for year in available_years %}
+                        <div class="year-item">
+                            <input type="checkbox" name="year_main" value="{{ year }}" id="year_{{ year }}" {% if year in selected_years_main %}checked{% endif %}>
+                            <label for="year_{{ year }}">{{ year }}</label>
+                        </div>
+                        {% endfor %}
+                        <button type="button" onclick="saveYearSelection()">Lưu</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Hộp thoại chọn loại hàng -->
+            <div id="productTypeDialog" class="dialog">
+                <div class="dialog-content">
+                    <span class="close" onclick="closeProductTypeDialog()">&times;</span>
+                    <!-- Nút đóng -->
+                    <input type="text" id="productTypeFilterInput" placeholder="Tìm kiếm loại hàng..." onkeyup="filterProductTypes()">
+                    <form id="productTypeForm">
+                        {% for product_type in available_product_types %}
+                        <div class="product-type-item">
+                            <input type="checkbox" name="product_types" value="{{ product_type.id }}" id="product_type_{{ product_type.id }}" {% if product_type.id in selected_product_types %}checked{% endif %}>
+                            <label for="product_type_{{ product_type.id }}">{{ product_type.product_type }}</label>
+                        </div>
+                        {% endfor %}
+                        <button type="button" onclick="saveProductTypeSelection()">Lưu</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="STT-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=stt&order={% if sort_by == 'stt' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                STT
+                            </a>
+                        </th>
+                        <th class="product-code-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=products__product_code&order={% if sort_by == 'products__product_code' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Mã hàng
+                            </a>
+                        </th>
+                        <th class="entry-date-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=entry_date&order={% if sort_by == 'entry_date' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Ngày nhập
+                            </a>
+                        </th>
+                        <th class="quantity-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=quantity&order={% if sort_by == 'quantity' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Số lượng
+                            </a>
+                        </th>
+                        <th class="supplier-name-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=suppliers__supplier_name&order={% if sort_by == 'suppliers__supplier_name' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}&year_sub={{ selected_years_sub }}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Nhà cung cấp
+                            </a>
+                        </th>
+                        <th class="warehouse-receipt-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=warehouse_receipts__warehouse_receipt_number&order={% if sort_by == 'warehouse_receipts__warehouse_receipt_number' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Số phiếu nhập
+                            </a>
+                        </th>
+                        <th class="bill-code-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=bills__bill_code&order={% if sort_by == 'bills__bill_code' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Mã bill
+                            </a>
+                        </th>
+                        <th class="contract-number-column">
+                            <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort=contracts__contract_number&order={% if sort_by == 'contracts__contract_number' and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">
+                                Số hợp đồng
+                            </a>
+                        </th>
+                        <th class="action-column">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for entry in list %}
+                    <tr>
+                        <td>{{ entry.stt }}</td>
+                        <td>{{ entry.products.product_code }}</td>
+                        <td>{{ entry.entry_date|date:"d/m/Y" }}</td>
+                        <td>{{ entry.quantity }}</td>
+                        <td>{{ entry.suppliers.supplier_name }}</td>
+                        <td>{{ entry.warehouse_receipts.warehouse_receipt_number }}</td>
+                        <td>{{ entry.bills.bill_code }}</td>
+                        <td>{{ entry.contracts.contract_number }}</td>
+                        <td>
+                            <a href="{% url 'edit_warehouse_entry' entry.id %}?page={{ list.number }}&sort={{ sort_by }}&order={{ sort_order }}&items_per_page={{ items_per_page }}&year_sub={{ selected_years_sub }}&year_main={{ selected_years_main }}&product_type={{ selected_product_types }}&search_sub={{ search_query_sub }}&search_main={{ search_query_main }}" class="edit-btn">Sửa</a>
+                            <a href="{% url 'delete_warehouse_entry' entry.id %}?page={{ list.number }}&sort={{ sort_by }}&order={{ sort_order }}&items_per_page={{ items_per_page }}&year_sub={{ selected_years_sub }}&year_main={{ selected_years_main }}&product_type={{ selected_product_types }}&search_sub={{ search_query_sub }}&search_main={{ search_query_main }}" class="delete-btn">Xóa</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                {% if list.has_previous %}
+                <a href="?page=1{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="pagination-btn">&#9664;&#9664; Trang Đầu</a>
+                <a href="?page={{ list.previous_page_number }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="pagination-btn">&#9664; Trang trước</a>
+                {% endif%}
+                
+                <span class="page-info">Trang {{ list.number }} / {{ list.paginator.num_pages }}</span> 
+            
+                {% if list.has_next %}
+                <a href="?page={{ list.next_page_number }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}&{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="pagination-btn">Trang Tiếp &#9654;</a>
+                <a href="?page={{ list.paginator.num_pages }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="pagination-btn">Trang Cuối &#9654;&#9654;</a>
+                {% endif %}
+            </div>
+
+
+            <div class="items-per-page">
+                <form method="get" action="{% url 'warehouse_entry' %}">
+                    {% if list.number %}<input type="hidden" name="page" value="{{ list.number }}">{% endif %}
+                    {% if sort_by %}<input type="hidden" name="sort" value="{{ sort_by }}">{% endif %}
+                    {% if sort_order %}<input type="hidden" name="order" value="{{ sort_order }}">{% endif %}
+                    <label for="items_per_page">Hiển thị:</label>
+                    <select name="items_per_page" onchange="this.form.submit()">
+                        <option value="20" {% if items_per_page == '20' %}selected{% endif %}>20</option>
+                        <option value="50" {% if items_per_page == '50' %}selected{% endif %}>50</option>
+                        <option value="100" {% if items_per_page == '100' %}selected{% endif %}>100</option>
+                    </select> 
+                    {% if selected_year_sub %}<input type="hidden" name="year_sub" value="{{ selected_year_sub }}">{% endif %}
+                    {% if selected_years_main %}<input type="hidden" name="year_main" value="{{ selected_years_main }}">{% endif %}
+                    {% if selected_product_types %}<input type="hidden" name="product_type" value="{{ selected_product_types }}">{% endif %}            
+                    {% if search_sub %}<input type="hidden" name="search_sub" value="{{ search_sub }}">{% endif %}
+                    {% if search_main %}<input type="hidden" name="search_main" value="{{ search_main }}">{% endif %}
+                    <label>Kết quả</label>
+                </form>
+            </div>
+            
+        </div>
+
+        <div class="sub-content">
+            <h2>Tổng số lượng hàng nhập theo tháng</h2>
+            <div class="year-sub-selector">
+                <form method="get" action="{% url 'warehouse_entry' %}">
+                    {% if list.number %}<input type="hidden" name="page" value="{{ list.number }}">{% endif %}
+                    {% if sort_by %}<input type="hidden" name="sort" value="{{ sort_by }}">{% endif %}
+                    {% if sort_order %}<input type="hidden" name="order" value="{{ sort_order }}">{% endif %}
+                    {% if items_per_page %}<input type="hidden" name="items_per_page" value="{{ items_per_page }}">{% endif %}
+                    <label for="year">Chọn năm:</label>
+                    <select name="year_sub" onchange="this.form.submit()">
+                        {% for year in available_years %}
+                        <option value="{{ year }}" {% if selected_year_sub == year %}selected{% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if selected_years_main %}<input type="hidden" name="year_main" value="{{ selected_years_main }}">{% endif %}
+                    {% if selected_product_types %}<input type="hidden" name="product_type" value="{{ selected_product_types }}">{% endif %}
+                    {% if search_sub %}<input type="hidden" name="search_sub" value="{{ search_sub }}">{% endif %}
+                    {% if search_main %}<input type="hidden" name="search_main" value="{{ search_main }}">{% endif %}
+                </form>
+            </div>
+
+            <div class="search-sub-container">
+                <form method="get" action="{% url 'warehouse_entry' %}" id="searchSubForm">
+                    {% if list.number %}<input type="hidden" name="page" value="{{ list.number }}">{% endif %}
+                    {% if sort_by %}<input type="hidden" name="sort" value="{{ sort_by }}">{% endif %}
+                    {% if sort_order %}<input type="hidden" name="order" value="{{ sort_order }}">{% endif %}
+                    {% if items_per_page %}<input type="hidden" name="items_per_page" value="{{ items_per_page }}">{% endif %}
+                    {% if selected_year_sub %}<input type="hidden" name="year_sub" value="{{ selected_year_sub }}">{% endif %}
+                    {% if selected_years_main %}<input type="hidden" name="year_main" value="{{ selected_years_main }}">{% endif %}
+                    {% if selected_product_types %}<input type="hidden" name="product_type" value="{{ selected_product_types }}">{% endif %}
+                    <input type="text" name="search_sub" placeholder="Tìm kiếm mã hàng..." value="{{ search_sub }}">
+                    <button type="submit">Tìm kiếm</button>
+                    {% if search_main %}<input type="hidden" name="search_main" value="{{ search_main }}">{% endif %}
+                </form>
+            </div>
+
+            <div class="sub-content-table-wrapper">
+                <table class="monthly-totals">
+                    <thead>
+                        <tr>
+                            <th>Mã hàng</th>
+                            {% for month in months %}
+                            <th>Tháng {{ month }}</th>
+                            {% endfor %}
+                            <th>Tổng cả năm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in yearly_totals %}
+                        <tr>
+                            <td>{{ entry.product_code }}</td>
+                            {% for month_total in entry.monthly_totals %}
+                            <td class="{% if month_total > 0 %}red-highlight{% endif %}">{{ month_total }}</td>
+                            {% endfor %}
+                            <td>{{ entry.total_quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

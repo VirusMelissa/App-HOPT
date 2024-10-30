@@ -1,0 +1,200 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding-bottom: 100px;
+    /* Có khoảng trống phía dưới */
+}
+
+h2 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 32px;
+    width: 80%;
+    margin: 5px auto;
+}
+
+table {
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border: 2px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    /* Xóa gạch dưới */
+}
+
+th a {
+    color: white;
+    /* Màu chữ cho liên kết */
+    text-decoration: none;
+    /* Xóa gạch dưới cho liên kết trong tiêu đề */
+}
+
+th a:hover {
+    text-decoration: none;
+    /* Gạch dưới khi di chuột */
+    color: rgba(188, 187, 187, 0.916);
+}
+
+
+/* Đặt độ rộng cụ thể cho từng cột */
+.user-column { width: 15%; }
+.fullname-column { width: 25%; }
+.email-column { width: 25%; }
+.phone-column { width: 12%; }
+.role-column { width: 10%; }
+.action-column { width: 13%; }
+
+
+.edit-btn,
+.delete-btn {
+    padding: 8px;
+    background-color: #4CAF50;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+    background-color: #45a049;
+}
+
+.btn-container {
+    position: fixed;
+    /* Cố định vị trí */
+    top: 650px;
+    /* Cách cạnh dưới 20px */
+    right: 10%;
+    /* Cách cạnh phải 10% */
+    display: flex;
+}
+
+.create-btn,
+.home-btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    /* Khoảng cách giữa hai nút */
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+}
+
+.create-btn {
+    background-color: #4CAF50;
+}
+
+.create-btn:hover {
+    background-color: #45a049;
+}
+
+.home-btn {
+    background-color: #2196F3;
+}
+
+.home-btn:hover {
+    background-color: #1E88E5;
+}
+
+
+/* Phân trang */
+
+.pagination {
+    position: fixed;
+    /* Cố định vị trí */
+    top: 600px;
+    /* Cách cạnh dưới 70px */
+    right: 10%;
+    /* Cách cạnh phải 10% */
+    display: flex;
+    align-items: center;
+}
+
+.pagination-btn {
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination-btn:hover {
+    background-color: #333;
+}
+
+
+/* Định dạng cho thông tin trang */
+
+.page-info {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    margin: 0 5px;
+}
+
+
+/* Container cho form tìm kiếm */
+
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    /* Căn về bên phải */
+    margin: 10px auto;
+    width: 80%;
+    /* Đặt cùng chiều rộng với bảng */
+}
+
+
+/* Form tìm kiếm */
+
+.search-container input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-container button:hover {
+    background-color: #45a049;
+}
+
+
+/* Nút tải lại trang */
+
+.refresh-btn {
+    padding: 10px 20px;
+    background-color: #FF9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.refresh-btn:hover {
+    background-color: #FB8C00;
+}

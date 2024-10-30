@@ -1,0 +1,56 @@
+<!-- Home.html -->
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/authentication_notification.js' %}"></script>
+    <script src="{% static 'js/chatbox_dialog.js' %}"></script>
+</head>
+
+<body>
+    {% if messages %}
+    <div class="message" style="display:none;">
+        {% for message in messages %} {{ message }} {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo Công Ty">
+        <div class="slogan">
+            <p>Bringing Health Closer to Everyone.</p>
+        </div>
+    </div>
+
+    <div class="navbar">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Đăng Xuất</a> {% else %}
+        <a href="{% url 'login' %}">Đăng Nhập</a> {% endif %}
+        <a href="{% url 'warehouse_entry' %}">Kho Hàng</a>
+        <a href="#">AI HOPT</a>
+        <a href="#">Đặt Hàng</a>
+        <a href="#">CRM</a>
+        <a href="#">Bảo Trì</a>
+        <a href="#">Công Nợ</a>
+        <a href="#">Điều Hành</a>
+        <a href="#">IoMT HOPT</a>
+        <a href="#">VC TeleMed</a>
+        <a href="#">Dự Báo</a>
+
+        <!-- Hiển thị danh mục Quản Lý cho vai trò admin -->
+        {% if user.is_authenticated and user.role == 'admin' %}
+        <a href="{% url 'user_management' %}">Quản Lý</a> {% endif %}
+    </div>
+
+    <div class="container">
+        <h1>Chào mừng bạn đến với hệ thống quản lý</h1>
+        <p>Đây là trang chủ của hệ thống quản lý công ty. Tại đây, tôi có thể điều hướng tới các phần khác như Đăng Nhập, Kho Hàng, Đặt Hàng và nhiều tính năng khác.</p>
+    </div>
+</body>
+
+</html>

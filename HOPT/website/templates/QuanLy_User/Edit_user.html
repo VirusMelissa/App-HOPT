@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/QuanLy_User/edit_user.css' %}">
+    <script src="{% static 'js/QuanLy_User/show_tooltip_edit_user.js' %}"></script>
+    <title>Chỉnh Sửa Người Dùng</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Chỉnh Sửa Thông Tin Người Dùng</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Tên người dùng -->
+            <div class="form-group">
+                <label for="id_username">Tên người dùng:</label>
+                <input type="text" name="username" id="id_username" autocomplete="off" value="{{ form.username.value }}">
+                <div class="tooltip" id="username-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+            
+            <!-- Họ và tên -->
+            <div class="form-group">
+                <label for="id_fullname">Họ và tên:</label>
+                <input type="text" name="fullname" id="id_fullname" autocomplete="off" value="{{ form.fullname.value }}">
+                <div class="tooltip" id="fullname-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="id_email">Email:</label>
+                <input type="email" name="email" id="id_email" autocomplete="off" value="{{ form.email.value }}">
+                <div class="tooltip" id="email-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="form-group">
+                <label for="id_phone_number">Số điện thoại:</label>
+                <input type="number" name="phone_number" id="id_phone_number" autocomplete="off" value="{{ form.phone_number.value }}">
+                <div class="tooltip" id="phone-number-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <!-- Vai trò -->
+            <div class="form-group">
+                <label for="id_role">Vai trò:</label>
+                <select name="role" id="id_role" class="select-field">
+                    {% for choice in form.role.field.choices %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == form.role.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <div class="tooltip" id="role-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="form-group">
+                <label for="id_password1">Mật khẩu:</label>
+                <input type="password" name="password1" id="id_password1" autocomplete="off" value="">
+                <div class="tooltip" id="password1-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <!-- Xác nhận mật khẩu -->
+            <div class="form-group">
+                <label for="id_password2">Xác nhận mật khẩu:</label>
+                <input type="password" name="password2" id="id_password2" autocomplete="off" value="">
+                <div class="tooltip" id="password2-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="save-btn">Lưu thay đổi</button>
+            <a href="{% url 'user_management' %}" class="cancel-btn">Hủy bỏ</a>
+        </form>
+    </div>
+</body>
+
+</html>

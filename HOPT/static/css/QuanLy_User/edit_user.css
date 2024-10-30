@@ -1,0 +1,172 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/background.jpg');  /*Đường dẫn đến hình ảnh nền */
+    background-size: cover; /* Đảm bảo hình ảnh phủ kín màn hình */
+    background-position: center; /* Căn giữa hình ảnh */
+    /* background: linear-gradient(135deg, #4976b9, #4472b7, #3e6db4, #3769b4, #3165b3, #2c61b1, #265cae, #1f59b1, #1754b1, #114fad); */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding-right: 30px;
+    padding-left: 40px;
+    padding-bottom: 40px;
+    max-width: 500px;
+    width: 100%;
+    text-align: left;
+    position: relative;
+}
+
+h2 {
+    font-size: 28px;
+    padding-top: auto;
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2193b0;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 18px;
+    flex-basis: 180px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select {
+    flex-basis: 290px;
+    /* Cho input chiếm 65% không gian hàng */
+    padding: 8px;
+    border: 2px solid #2193b0;
+    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: border-color 0.3s ease;
+}
+
+.select-field {
+    flex-basis: 310px;
+    /* Kích thước giống với các trường text */
+    padding: 8px;
+    border: 2px solid #2193b0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.select-field:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+
+/* Hiệu ứng focus cho input và select */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+/* Tooltip chung */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: #ff4d4d;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    left: 100%; /* Đặt tooltip nằm xa hơn bên phải input */
+    top: 50%; /* Căn chỉnh giữa với input */
+    transform: translateY(-50%);
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+/* Hiển thị mũi tên nhỏ ở tooltip */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* Đặt mũi tên ở bên trái */
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #ff4d4d transparent transparent;
+}
+
+/* Hiệu ứng khi tooltip được hiển thị */
+.tooltip.show .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+button.save-btn {
+    background-color: #2193b0;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button.save-btn:hover {
+    background-color: #6dd5ed;
+}
+
+/* Thiết kế nút a */
+a.cancel-btn {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #ff0000;
+    color: white;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none; /* gạch dưới tắt */
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+a.cancel-btn:hover {
+    background-color: #cc0000;
+    text-decoration: none; /* Giữ nút không gạch chân khi hover */
+}

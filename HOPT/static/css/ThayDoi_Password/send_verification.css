@@ -1,0 +1,83 @@
+/* Sử dụng lại các quy định từ login.css và tinh chỉnh lại nếu cần */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/background.jpg');  /*Đường dẫn đến hình ảnh nền */
+    background-size: cover; /* Đảm bảo hình ảnh phủ kín màn hình */
+    background-position: center; /* Căn giữa hình ảnh */
+    /* background: linear-gradient(135deg, #4976b9, #4472b7, #3e6db4, #3769b4, #3165b3, #2c61b1, #265cae, #1f59b1, #1754b1, #114fad); */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: left;
+    position: relative;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2193b0;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 18px;
+    flex-basis: 250px;
+    font-weight: bold;
+    color: #333;
+}
+
+select {
+    flex-basis: 180px;
+    padding: 8px;
+    border: 2px solid #2193b0;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+button {
+    background-color: #2193b0;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #6dd5ed;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/ThayDoi_Password/send_verification.css' %}">
+    <title>Gửi Mã Xác Nhận</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Gửi Mã Xác Nhận</h2>
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="method">Chọn phương thức gửi mã:</label>
+                <select name="method" id="method" required>
+                    <option value="email">Email</option>
+                    <option value="phone">Số điện thoại</option>
+                    <option value="zalo">Tin Nhắn Zalo</option>
+                </select>
+            </div>
+            <button type="submit">Gửi Mã</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/ThayDoi_Password/verify_code.css' %}">
+    <script src="{% static 'js/ThayDoi_Password/tooltip_verify_code.js' %}"></script>
+    <script src="{% static 'js/ThayDoi_Password/countdown.js' %}"></script>
+    <title>Xác Nhận Mã</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Xác Nhận Mã</h2>
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_code">Nhập mã xác nhận:</label>
+                <input type="text" name="code" id="id_code" required>
+                <div class="tooltip" id="code-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <p>Mã xác nhận còn hiệu lực trong: <span id="countdown">2:00</span></p> <!-- Thời gian đếm ngược -->
+            {% if error_message %}
+                <div class="error-message">{{ error_message }}</div>
+            {% endif %}
+
+            <button type="submit">Xác Nhận</button>
+            <a href="{% url 'login' %}" class="back-btn">Quay về trang Đăng Nhập</a>
+        </form>
+    </div>
+
+    <script>
+        // Lưu thời gian gửi mã vào sessionStorage khi load trang
+        const sentTimeStr = '{{ request.session.code_sent_time2 }}';
+        sessionStorage.setItem('code_sent_time2', sentTimeStr);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+/* Reset một số thuộc tính mặc định */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Giao diện toàn trang */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    /* Màu nền nhẹ */
+    color: #333;
+    /* Màu chữ */
+    margin: 0;
+}
+
+
+/* Thiết lập cho khung logo */
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+.logo img {
+    max-width: 300px;
+    /* Điều chỉnh kích thước logo tùy ý */
+    height: auto;
+}
+
+.slogan {
+    margin-left: 20px;
+    font-family: "Pacifico", cursive;
+    font-size: 28px;
+    font-weight: bold;
+    font-style: italic;
+    color: #f70a0a;
+    /* Màu sắc cho chữ slogan */
+}
+
+.slogan p {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Thiết lập cho thanh menu */
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: #265aa6;
+    padding: 10px 0;
+    /* Khoảng cách giữa các phần tử menu */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Tạo đổ bóng nhẹ */
+}
+
+.navbar a {
+    color: white;
+    padding: 12px 15px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    /* Đặt chữ trong menu thành đậm */
+    transition: background-color 0.3s ease;
+    /* Hiệu ứng khi rê chuột */
+}
+
+.navbar a:hover {
+    background-color: #416eb2;
+    /* Màu nền khi rê chuột vào */
+    color: white;
+    /* Màu chữ khi rê chuột */
+}
+
+
+/* Định dạng phần nội dung */
+
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+.container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.container p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+
+/* Giao diện modal */
+
+.modal {
+    display: none;
+    /* Ẩn modal theo mặc định */
+    position: fixed;
+    /* Ghim vị trí modal */
+    z-index: 1000;
+    /* Đặt z-index để đảm bảo modal nằm trên các thành phần khác */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Cho phép cuộn khi cần thiết */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Nền mờ với độ trong suốt */
+}
+
+.modal-content {
+    background-color: #fff;
+    /* Nền modal trắng */
+    margin: auto;
+    /* Căn giữa modal */
+    padding: 20px;
+    /* Padding cho nội dung */
+    border-radius: 10px;
+    /* Đường viền bo tròn */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Đổ bóng cho modal */
+    width: 400px;
+    /* Độ rộng modal */
+    text-align: center;
+    /* Căn giữa nội dung */
+    position: relative;
+    /* Đặt vị trí relative cho modal content */
+    top: 50%;
+    /* Đẩy modal xuống giữa theo chiều dọc */
+    transform: translateY(-50%);
+    /* Dịch chuyển lên nửa chiều cao của modal */
+}
+
+h2 {
+    color: #2c3e50;
+    /* Màu tiêu đề */
+    margin-bottom: 15px;
+    /* Khoảng cách dưới tiêu đề */
+}
+
+.modal-message {
+    color: #34495e;
+    /* Màu sắc cho thông điệp */
+    font-size: 16px;
+    /* Kích thước chữ */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới thông điệp */
+}
+
+
+/* Nút Đăng nhập tài khoản khác */
+
+.login-button {
+    background-color: #2ecc71;
+    /* Màu nền cho nút đăng nhập khác */
+    color: white;
+    /* Màu chữ */
+    border: none;
+    /* Không đường viền */
+    padding: 10px 20px;
+    /* Padding cho nút */
+    border-radius: 5px;
+    /* Đường viền bo tròn cho nút */
+    cursor: pointer;
+    /* Con trỏ thay đổi khi di chuột */
+    margin-top: 10px;
+    /* Khoảng cách trên nút */
+    margin-bottom: 10px;
+    /* Khoảng cách dưới nút */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển màu nền */
+}
+
+.login-button:hover {
+    background-color: #27ae60;
+    /* Màu nền khi di chuột lên nút đăng nhập khác */
+}
+
+
+/* Nút đóng */
+
+
+/* Nút đóng */
+
+.close {
+    color: #aaa;
+    /* Màu sắc cho nút đóng */
+    position: absolute;
+    /* Đặt vị trí nút đóng */
+    top: 10px;
+    /* Khoảng cách từ trên xuống */
+    right: 15px;
+    /* Khoảng cách từ bên phải vào */
+    font-size: 28px;
+    /* Kích thước chữ */
+    font-weight: bold;
+    /* Đậm */
+    cursor: pointer;
+    /* Thay đổi con trỏ khi di chuột */
+    z-index: 2;
+    /* Đảm bảo nút đóng nằm trên nội dung khác */
+}
+
+.close:hover,
+.close:focus {
+    color: #c0392b;
+    /* Màu khi di chuột lên nút đóng */
+}
+
+
+/* Nút OK */
+
+.ok-button {
+    background-color: #3498db;
+    /* Màu nền cho nút OK */
+    color: white;
+    /* Màu chữ */
+    border: none;
+    /* Không đường viền */
+    padding: 10px 20px;
+    /* Padding cho nút */
+    border-radius: 5px;
+    /* Đường viền bo tròn cho nút */
+    cursor: pointer;
+    /* Con trỏ thay đổi khi di chuột */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển màu nền */
+}
+
+.ok-button:hover {
+    background-color: #2980b9;
+    /* Màu nền khi di chuột lên nút OK */
+}
+
+
+/* Thêm margin giữa các nút */
+
+.ok-button,
+.login-button {
+    margin: 10px;
+}
