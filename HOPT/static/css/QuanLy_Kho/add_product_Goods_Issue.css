@@ -1,0 +1,202 @@
+/* Nền với hiệu ứng gradient màu từ nhạt đến đậm */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/background.jpg');  /* Đường dẫn đến hình ảnh nền */
+    background-size: cover; /* Đảm bảo hình ảnh phủ kín màn hình */
+    background-position: center; /* Căn giữa hình ảnh */
+    font-family: Arial, sans-serif;
+}
+
+/* Container cho form */
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-bottom: 25px;
+    width: 600px;
+    text-align: left;
+    position: relative;
+}
+
+h1 {
+    text-align: center; /* Căn giữa nội dung */
+    font-size: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 30px;
+}
+
+/* Định dạng cho label và textinput trên cùng 1 hàng */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Định dạng label */
+.label1 {
+    font-size: 20px;
+    flex-basis: 180px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+}
+
+.label2 {
+    font-size: 20px;
+    flex-basis: 120px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Định dạng input */
+input[type="number"],
+input[type="date"] {
+    flex-basis: 350px;
+    padding: 8px;
+    margin-right: 10px;
+    border: 2px solid #2193b0;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: border-color 0.3s ease;
+}
+
+
+/* Điều chỉnh độ rộng của ô nhập liệu số lượng và số lượng còn lại */
+#available_quantity,
+#quantity {
+    flex-basis: auto !important; /* Bỏ flex-basis để không áp dụng độ rộng mặc định */
+    width: 100px !important; /* Điều chỉnh độ rộng cụ thể */
+    padding: 8px !important; /* Điều chỉnh padding */
+    margin-right: 10px;
+    font-size: 18px !important;
+    border: 2px solid #2193b0;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+/* Đảm bảo hiệu ứng focus khi người dùng nhấp vào ô */
+#available_quantity:focus,
+#quantity:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+/* Hiệu ứng focus cho input và select */
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+.select2-container {
+    flex-basis: 370px !important; /* Đảm bảo chiếm toàn bộ chiều rộng */
+}
+
+/* Định nghĩa cho Select2 để lấy lại viền và chiều cao */
+.select2-container .select2-selection--single {
+    height: 40px !important; /* Đặt chiều cao giống như các trường nhập */
+    font-size: 18px;
+    font-weight: 500;
+    border: 2px solid #2193b0 !important; /* Đặt viền cho select2 */
+    border-radius: 5px !important; /* Đảm bảo góc bo giống như các trường nhập */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px !important; /* Căn giữa nội dung trong select */
+}
+
+/* Đặt viền cho select2 khi focus */
+.select2-container--default .select2-selection--single:focus {
+    border-color: #6dd5ed !important;
+    outline: none !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px !important; /* Đặt chiều cao cho nút mũi tên */
+    display: flex; /* Sử dụng flexbox để căn giữa */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    margin: 0; /* Đảm bảo không có khoảng cách bên ngoài */
+}
+
+/* Tooltip chung */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: #ff4d4d;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+/* Hiển thị mũi tên nhỏ ở tooltip */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #ff4d4d transparent transparent;
+}
+
+/* Hiệu ứng khi tooltip được hiển thị */
+.tooltip.show .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Định dạng cho nút bấm */
+button {
+    background-color: #2193b0;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+/* Hiệu ứng hover cho nút */
+button:hover {
+    background-color: #6dd5ed;
+}
+
+

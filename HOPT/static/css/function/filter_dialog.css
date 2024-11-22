@@ -1,0 +1,95 @@
+/* Cập nhật cho phần filter */
+.filter-container {
+    display: flex; /* Đảm bảo các phần tử bên trong nằm ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    height: 36px;
+}
+
+.filter-container button {
+    display: inline-flex; /* Đảm bảo biểu tượng và văn bản nằm trên cùng một dòng */
+    align-items: center;
+    justify-content: center;
+    height: 33px;
+    padding: 8px 16px;
+    padding-right: 8px;
+    background-color: #FF9800;
+    border: none; /* Xóa viền nút */
+    color: white;
+    border-radius: 5px; /* Bo góc cho nút */
+    cursor: pointer; /* Con trỏ thay đổi khi di chuột qua nút */
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.filter-container button[id="submitButton"] {
+    padding: 8px 16px;
+}
+
+.material-symbols-outlined {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.filter-container button:hover {
+    background-color: #FB8C00; /* Màu nền khi di chuột qua nút */
+}
+
+.dialog {
+    display: none;
+    position: absolute;
+    margin-top: 10px;
+    z-index: 1000;
+    background-color: #ffffff;
+    border: 1px solid #888;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    min-width: 200px;
+}
+
+.dialog-content {
+    max-height: 200px;
+    /* Đặt chiều cao tối đa */
+    overflow-y: auto;
+    /* Cho phép cuộn nếu có quá nhiều mục */
+}
+
+.clear-filters-list {
+    list-style: none;
+    padding: 0;
+}
+
+.clear-filters-list li {
+    margin-bottom: 10px;
+}
+
+.clear-filters-list button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.year-item,
+.product-type-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}

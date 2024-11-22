@@ -1,0 +1,19 @@
+.items-per-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.items-per-page label {
+    font-weight: bold;
+}
+
+.items-per-page select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+}

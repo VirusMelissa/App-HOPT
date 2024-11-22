@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/Goods_Issue.css' %}">
+    <link rel="stylesheet" href="{% static 'css/function/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/function/btn_classic.css' %}">
+    <link rel="stylesheet" href="{% static 'css/function/btn_sub.css' %}">
+    <link rel="stylesheet" href="{% static 'css/function/filter_dialog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/function/message_chat.css' %}">
+    <link rel="stylesheet" href="{% static 'css/function/table_highlight.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_drop_down" />
+    <script src="{% static 'js/QuanLy_Kho/filter_dialog_Goods_Issue.js' %}"></script>
+    <script src="{% static 'js/chatbox_dialog.js' %}"></script>
+    <title>Quản Lý Kho</title>
+</head>
+
+<body>
+    <script>
+        var fullname = "{{ request.session.fullname|default:'' }}";
+    </script>
+    <div class="sidebar">
+        <ul>
+            <li><a href="#"><span class="icon"><i class="fas fa-warehouse"></i></span><span class="content">Kho Hàng</span></a></li>
+            <li><a href="{% url 'goods_receipt' %}"><span class="icon"><i class="fas fa-sign-in-alt"></i></span><span class="content">Nhập Kho</span></a></li>
+            <li class="active"><a href="{% url 'goods_issue' %}"><span class="icon"><i class="fas fa-sign-out-alt"></i></span><span class="content">Xuất Kho</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-shopping-cart"></i></span><span class="content">Đặt Hàng</span></a></li>
+            <li><a href="{% url 'inventory' %}"><span class="icon"><i class="fas fa-box"></i></span><span class="content">Tồn Kho</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-database"></i></span><span class="content">Dữ Liệu Khác</span></a></li>
+            <li><a href="#"><span class="icon"><i class="fas fa-chart-bar"></i></span><span class="content">Báo Cáo</span></a></li>         
+        </ul>
+    </div>
+
+
+    <div class="container">
+        <div class="header">
+            <h1>Quản Lý Kho - Xuất Kho</h1>
+            <div class="btn-container">
+                <a href="{% url 'add_goods_issue' %}?{% if list.number %}page={{ list.number}}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main|join:',' }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types|join:',' }}{% endif %}{% if selected_warehouses %}&warehouse={{ selected_warehouses|join:',' }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="create-btn">Thêm hàng xuất kho</a>
+                <a href="{% url 'goods_issue' %}" class="refresh-btn">Tải lại trang</a>
+                <button type="button" id="chatButton" data-department="warehouse" onclick="openChatDialog(this)">
+                    <i class="far fa-comment"></i> Chat
+                </button>
+        
+                <input type="hidden" id="currentUser" value="{{ request.user.username }}">
+                
+                <div id="chatDialog" class="chatdialog" data-department="">
+                    <div class="chatdialog-content">
+                        <span class="close" onclick="closeChatDialog()">&times;</span>
+                        <div id="chatMessages" class="chat-messages"></div>
+                        <div class="chat-input-area">
+                            <textarea id="chatInput" placeholder="Nhập tin nhắn..."></textarea>
+                            <button type="button" onclick="sendMessage()">Gửi</button>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'index' %}" class="home-btn">Về trang chủ</a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="search-filter">
+                <div class="search-main-container">
+                    <form method="get" action="{% url 'goods_issue' %}" id="searchMainForm">
+                        {% for field in hidden_fields %}
+                            {% if field.value %}
+                                {% if field.name != "search_main" and field.value != search_query_main %}
+                                    <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <input type="text" name="search_main" placeholder="Nhập từ khóa..." value="{{ search_main }}">
+                        <button type="submit">Tìm kiếm</button> 
+                    </form>
+                </div>
+                
+                <div class="filter-container">
+                    <form method="get" action="{% url 'goods_issue' %}" id="filterForm">
+                        {% for field in hidden_fields %}
+                            {% if field.value %}
+                                <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                            {% endif %}
+                        {% endfor %}
+                        <button type="button" id="yearButton" onclick="openYearDialog()">
+                            Năm <span class="material-symbols-outlined">arrow_drop_down</span>
+                        </button>
+                        <button type="button" id="productTypeButton" onclick="openProductTypeDialog()">
+                            Loại hàng <span class="material-symbols-outlined">arrow_drop_down</span>
+                        </button>
+                        <button type="button" id="warehouseButton" onclick="openWarehouseDialog()">
+                            Kho <span class="material-symbols-outlined">arrow_drop_down</span>
+                        </button>
+                        <button type="button" id="clearFiltersButton" onclick="openClearFiltersDialog()">
+                            Xóa bộ lọc <span class="material-symbols-outlined">arrow_drop_down</span>
+                        </button>
+                    </form>
+                </div>
+                
+            </div>
+
+            <!-- Hộp thoại chọn năm -->
+            <div id="yearDialog" class="dialog">
+                <div class="dialog-content">
+                    <span class="close" onclick="closeYearDialog()">&times;</span>
+                    <input type="text" id="yearFilterInput" placeholder="Tìm kiếm năm..." onkeyup="filterYears()">
+                    <form id="yearForm" onsubmit="applyFilters(event, 'year')">
+                        {% for year in available_years %}
+                        <div class="year-item">
+                            <input type="checkbox" name="year_main" value="{{ year }}" 
+                                {% if year in selected_years_main %}checked{% endif %}>{{ year }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit">Lọc</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Hộp thoại chọn loại hàng -->
+            <div id="productTypeDialog" class="dialog">
+                <div class="dialog-content">
+                    <span class="close" onclick="closeProductTypeDialog()">&times;</span>
+                    <input type="text" id="productTypeFilterInput" placeholder="Tìm kiếm loại hàng..." onkeyup="filterProductTypes()">
+                    <form id="productTypeForm" onsubmit="applyFilters(event, 'productType')">
+                        {% for product_type in available_product_types %}
+                        <div class="product-type-item">
+                            <input type="checkbox" name="product_type" value="{{ product_type.product_type_code }}" 
+                                {% if product_type.product_type_code in selected_product_types %}checked{% endif %}>{{ product_type.product_type_name }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit">Lọc</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Hộp thoại chọn kho -->
+            <div id="warehouseDialog" class="dialog">
+                <div class="dialog-content">
+                    <span class="close" onclick="closeWarehouseDialog()">&times;</span>
+                    <input type="text" id="warehouseFilterInput" placeholder="Tìm kiếm kho..." onkeyup="filterWarehouses()">
+                    <form id="warehouseForm" onsubmit="applyFilters(event, 'warehouse')">
+                        {% for warehouse in available_warehouses %}
+                        <div class="warehouse-item">
+                            <input type="checkbox" name="warehouse" value="{{ warehouse.warehouse_code }}"
+                                {% if warehouse.warehouse_code in selected_warehouses %}checked{% endif %}><label>{{ warehouse.name }}</label>
+                        </div>
+                        {% endfor %}
+                        <button type="submit">Lọc</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Hộp thoại xóa bộ lọc -->
+            <div id="clearFiltersDialog" class="dialog">
+                <div class="dialog-content">
+                    <span class="close" onclick="closeClearFiltersDialog()">&times;</span>
+                    <ul class="clear-filters-list">
+                        <li><button type="button" onclick="clearFilter('year')">Xóa bộ lọc "Năm"</button></li>
+                        <li><button type="button" onclick="clearFilter('productType')">Xóa bộ lọc "Loại hàng"</button></li>
+                        <li><button type="button" onclick="clearFilter('warehouse')">Xóa bộ lọc "Kho"</button></li>
+                        <li><button type="button" onclick="clearFilter('all')">Xóa "toàn bộ bộ lọc"</button></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <table class="table-main-content">
+                <thead>
+                    <tr>
+                        {% for column in columns %}
+                            <th class="{{ column.field }}-column">
+                                <a href="?{% if list.number %}page={{ list.number}}{% endif %}&sort={{ column.field }}&order={% if sort_by == column.field and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main|join:',' }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types|join:',' }}{% endif %}{% if selected_warehouses %}&warehouse={{ selected_warehouses|join:',' }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="column-header">{{ column.name }}</a>
+                            </th>
+                        {% endfor %}
+                        <th class="action-column">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for issue in list %}
+                    <tr>
+                        <td>{{ issue.stt }}</td>
+                        <td>{{ issue.products.product_code }}</td>
+                        <td>{{ issue.order.order_number }}</td>
+                        <td>{{ issue.issue_date|date:"d/m/Y" }}</td>
+                        <td>{{ issue.quantity }}</td>
+                        <td>{{ issue.warehouse.name }}</td>
+                        <td>{{ issue.customers.customer_name }}</td>
+                        <td>{{ issue.employees.full_name }}</td>
+                        <td>
+                            <a href="{% url 'edit_goods_issue' issue.id %}?{% if list.number %}page={{ list.number}}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main|join:',' }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types|join:',' }}{% endif %}{% if selected_warehouses %}&warehouse={{ selected_warehouses|join:',' }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="edit-btn">Sửa</a>
+                            <a href="{% url 'delete_goods_issue' issue.id %}?{% if list.number %}page={{ list.number}}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if items_per_page %}&items_per_page={{ items_per_page }}{% endif %}{% if selected_year_sub %}&year_sub={{ selected_year_sub }}{% endif %}{% if selected_years_main %}&year_main={{ selected_years_main|join:',' }}{% endif %}{% if selected_product_types %}&product_type={{ selected_product_types|join:',' }}{% endif %}{% if selected_warehouses %}&warehouse={{ selected_warehouses|join:',' }}{% endif %}{% if search_main %}&search_main={{ search_main }}{% endif %}{% if search_sub %}&search_sub={{ search_sub }}{% endif %}" class="delete-btn">Xóa</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                {% if list.has_previous %}
+                    <a href="?page=1{{ base_pagination_url }}" class="pagination-btn">&#9664;&#9664; Trang Đầu</a>
+                    <a href="?page={{ list.previous_page_number }}&{{ base_pagination_url }}" class="pagination-btn">&#9664; Trang trước</a>
+                {% endif %}
+                
+                <span class="page-info">Trang {{ list.number }} / {{ list.paginator.num_pages }}</span>
+                
+                {% if list.has_next %}
+                    <a href="?page={{ list.next_page_number }}&{{ base_pagination_url }}" class="pagination-btn">Trang Tiếp &#9654;</a>
+                    <a href="?page={{ list.paginator.num_pages }}&{{ base_pagination_url }}" class="pagination-btn">Trang Cuối &#9654;&#9654;</a>
+                {% endif %}
+            </div>
+
+
+            <div class="items-per-page">
+                <form method="get" action="{% url 'goods_issue' %}">
+                    {% for field in hidden_fields %}
+                        {% if field.value %}
+                            {% if field.name != "items_per_page" and field.value != items_per_page %}
+                                <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <label for="items_per_page">Hiển thị:</label>
+                    <select name="items_per_page" onchange="this.form.submit()">
+                        <option value="20" {% if items_per_page == '20' %}selected{% endif %}>20</option>
+                        <option value="50" {% if items_per_page == '50' %}selected{% endif %}>50</option>
+                        <option value="100" {% if items_per_page == '100' %}selected{% endif %}>100</option>
+                    </select> 
+                    <label>Kết quả</label>
+                </form>
+            </div>
+            
+        </div>
+
+        <div class="sub-content">
+            <div class="year-sub-selector">
+                <form method="get" action="{% url 'goods_issue' %}">
+                    {% for field in hidden_fields %}
+                        {% if field.value %}
+                            {% if field.name != "year_sub" and field.value != selected_years_sub %}
+                                <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <label for="year">Chọn năm:</label>
+                    <select name="year_sub" onchange="this.form.submit()">
+                        {% for year in available_years %}
+                        <option value="{{ year }}" {% if selected_year_sub == year %}selected{% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <div class="search-sub-container">
+                <form method="get" action="{% url 'goods_issue' %}" id="searchSubForm">
+                    {% for field in hidden_fields %}
+                        {% if field.value %}
+                            {% if field.name != "search_sub" and field.value != search_query_sub %}
+                                <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <input type="text" name="search_sub" placeholder="Tìm kiếm mã hàng..." value="{{ search_sub }}">
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+
+            <h2>Tổng số lượng hàng xuất theo tháng</h2>
+            <div class="sub-content2-table-wrapper">
+                <table class="table-monthly-totals">
+                    <thead>
+                        <tr>
+                            <th>Mã hàng</th>
+                            {% for month in months %}
+                            <th>Tháng {{ month }}</th>
+                            {% endfor %}
+                            <th>Tổng cả năm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for issue in yearly_totals %}
+                        <tr>
+                            <td>{{ issue.product_code }}</td>
+                            {% for month_total in issue.monthly_totals %}
+                            <td class="{% if month_total > 0 %}red-highlight{% endif %}">{{ month_total }}</td>
+                            {% endfor %}
+                            <td class="green-highlight">{{ issue.total_quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Tổng số lượng hàng xuất theo khách hàng</h2>
+            <div class="sub-content2-table-wrapper">
+                <table class="table-customer-totals">
+                    <thead>
+                        <tr>
+                            <th>Mã hàng</th>
+                            {% for customer_code in customer_list %}
+                            <th>{{ customer_code }}</th> <!-- Hiển thị mã khách hàng -->
+                            {% endfor %}
+                            <th>Tổng cả năm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for issue in yearly_customer_totals %}
+                        <tr>
+                            <td>{{ issue.product_code }}</td>
+                            {% for customer_total in issue.customer_totals %}
+                            <td class="{% if customer_total > 0 %}red-highlight{% endif %}">{{ customer_total }}</td>
+                            {% endfor %}
+                            <td class="green-highlight">{{ issue.total_quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

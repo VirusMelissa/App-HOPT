@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xác nhận xóa</title>
-    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/confirm_delete_warehouse_entry.css' %}">
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/confirm_delete_Goods_Receipt.css' %}">
 </head>
 <body>
     <div class="container">
@@ -16,7 +16,7 @@
             </div>
             <div class="info-row">
                 <span class="label">Ngày nhập:</span>
-                <span class="value">{{ entry.entry_date|date:"d/m/Y" }}</span>
+                <span class="value">{{ entry.receipt_date|date:"d/m/Y" }}</span>
             </div>
             <div class="info-row">
                 <span class="label">Số lượng:</span>
@@ -27,8 +27,8 @@
                 <span class="value">{{ entry.suppliers.supplier_name }}</span>
             </div>
             <div class="info-row">
-                <span class="label">Số Phiếu Nhập:</span>
-                <span class="value">{{ entry.warehouse_receipts.warehouse_receipt_number }}</span>
+                <span class="label">Kho:</span>
+                <span class="value">{{ entry.warehouse.name }}</span>
             </div>
             <div class="info-row">
                 <span class="label">Mã Bill:</span>
@@ -43,7 +43,7 @@
         <form method="POST">
             {% csrf_token %}
             <button type="submit" class="confirm-btn">Xác nhận</button>
-            <a href="{% url 'warehouse_entry' %}" class="cancel-btn">Hủy</a>
+            <a href="{% url 'goods_receipt' %}" class="cancel-btn">Hủy</a>
         </form>
     </div>
 </body>

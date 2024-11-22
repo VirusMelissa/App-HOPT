@@ -1,0 +1,71 @@
+/* Nền với hiệu ứng gradient màu từ nhạt đến đậm */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../images/background.jpg');  /* Đường dẫn đến hình ảnh nền */
+    background-size: cover; /* Đảm bảo hình ảnh phủ kín màn hình */
+    background-position: center; /* Căn giữa hình ảnh */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 450px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    color: #d9534f;
+    text-align: center;
+}
+
+.info-box {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.value {
+    color: #333;
+}
+
+.confirm-btn, .cancel-btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background-color: #d9534f;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #5bc0de;
+    color: white;
+    text-decoration: none;
+}
+
+.confirm-btn:hover, .cancel-btn:hover {
+    opacity: 0.8;
+}

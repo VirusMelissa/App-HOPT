@@ -20,95 +20,128 @@ body {
     padding-right: 40px;
     padding-left: 40px;
     padding-bottom: 25px;
-    width: 550px;
+    width: 400px;
     text-align: left;
     position: relative;
 }
 
-/* Tiêu đề của form */
-h2 {
-    font-size: 28px;
-    padding-top: auto;
-    margin-bottom: 30px;
+h1 {
+    text-align: center; /* Căn giữa nội dung */
+    font-size: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #2193b0;
+    margin-bottom: 30px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group-row1 {
+    display: flex;
+    width: 100%;
+    align-items: center; /* Căn giữa label và input theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa label và input */
+    margin-bottom: 10px;
+}
+
+
+.form-group-row1 input[type="number"],
+.form-group-row1 .select-field {
+    flex: 1; /* Đặt input chiếm toàn bộ chiều rộng còn lại */
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Điều chỉnh cho `.form-group-row2` */
+.form-group-row2 {
+    display: flex;
+    gap: 15px; /* Đặt khoảng cách giữa các input */
+    width: 100%; /* Đảm bảo hàng chiếm toàn bộ chiều rộng của form */
+    margin-bottom: 10px;
+}
+
+.form-group-row2 .form-group {
+    flex: 1;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[readonly] {
+    background-color: #f0f0f0;
+    color: #888;
+    border-color: #ccc;
+}
+
+input[type="number"]{
+    width: 90%;
+    padding: 8px;
+    border: 2px solid #2193b0;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: border-color 0.3s ease;
+}
+
+/* Hiệu ứng focus cho input và select */
+input[type="number"]:focus,
+select:focus {
+    border-color: #6dd5ed;
+    outline: none;
+}
+
+.form-group-row1 input[type="number"]{
     text-align: center;
 }
 
-/* Định dạng cho label và textinput trên cùng 1 hàng */
-.form-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+.form-group input[type="number"]{
+    margin-right: 10px;
 }
 
-label {
-    font-size: 18px;
-    flex-basis: 180px;
-    font-weight: bold;
-    color: #333;
-}
 
-input[type="number"],
-input[type="date"],
-select {
-    flex-basis: 320px;
-    padding: 8px;
-    border: 2px solid #2193b0;
-    border-radius: 5px;
-    font-size: 18px;
-    transition: border-color 0.3s ease;
-}
-
-.select-field {
-    flex-basis: 340px;
-    padding: 8px;
-    border: 2px solid #2193b0;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-}
-
-.select-field:focus {
-    border-color: #6dd5ed;
-    outline: none;
+.select2-container {
+    width: 100% !important; /* Đảm bảo chiếm toàn bộ chiều rộng */
 }
 
 /* Định nghĩa cho Select2 để lấy lại viền và chiều cao */
 .select2-container .select2-selection--single {
-    height: 38px !important; /* Đặt chiều cao giống như các trường nhập */
+    height: 40px !important; /* Đặt chiều cao giống như các trường nhập */
+    font-size: 18px;
+    font-weight: 500;
     border: 2px solid #2193b0 !important; /* Đặt viền cho select2 */
     border-radius: 5px !important; /* Đảm bảo góc bo giống như các trường nhập */
+    pointer-events: none;
+    background-color: #f0f0f0 !important; /* Màu nền giống input readonly */
+    color: #888d !important; /* Màu chữ giống input readonly */
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px !important; /* Căn giữa nội dung trong select */
+    line-height: 40px !important; /* Căn giữa nội dung trong select */
 }
 
 /* Đặt viền cho select2 khi focus */
 .select2-container--default .select2-selection--single:focus {
-    border-color: #6dd5ed;
+    border-color: #6dd5ed !important;
+    outline: none !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 38px !important; /* Đặt chiều cao cho nút mũi tên */
+    height: 40px !important; /* Đặt chiều cao cho nút mũi tên */
     display: flex; /* Sử dụng flexbox để căn giữa */
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; /* Căn giữa theo chiều ngang */
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
-    margin: 0; /* Đảm bảo không có khoảng cách bên ngoài */
-}
-
-
-/* Hiệu ứng focus cho input và select */
-input[type="number"]:focus,
-input[type="date"]:focus,
-select:focus {
-    border-color: #6dd5ed;
-    outline: none;
 }
 
 /* Tooltip chung */
@@ -163,6 +196,7 @@ select:focus {
 
 /* Định dạng cho nút bấm */
 button {
+    margin-top: 15px;
     background-color: #2193b0;
     color: white;
     padding: 15px 30px;

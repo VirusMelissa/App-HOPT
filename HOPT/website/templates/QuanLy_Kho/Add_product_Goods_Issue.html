@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Mã Hàng</title>
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/add_product_Goods_Issue.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script src="{% static 'js/QuanLy_Kho/tooltip_product_Goods_Issue.js' %}" defer></script>
+    <!-- Đảm bảo rằng dữ liệu JSON được đưa vào trang đúng cách -->
+    <script type="application/json" id="total_quantities">
+        {{ total_quantities_json|safe }}
+    </script>
+    
+     
+     
+</head>
+<body>
+    <div class="container">
+        <h1>Thêm Mã Hàng Cần Xuất</h1>
+        <form method="POST" id="form">
+            {% csrf_token %}
+
+            <!-- Số đơn hàng -->
+            <div class="form-group">
+                <label class="label1" for="order">Số đơn hàng:</label>
+                <select name="order" id="order" class="select-field">
+                    {% for x in order %}
+                        <option value="{{ x.order_number}}">{{ x.order_number }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Mã sản phẩm -->
+            <div class="form-group">
+                <label class="label1" for="products">Mã Hàng:</label>
+                <select name="products" id="products" class="select-field">
+                    {% for product in products %}
+                        <option value="{{ product.product_code }}">{{ product.product_code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Ngày nhập -->
+            <div class="form-group">
+                <label class="label1" for="issue_date">Ngày Xuất:</label>
+                <input type="date" name="issue_date" id="issue_date" autocomplete="off">
+                <div class="tooltip" id="issue_date-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>
+
+            <!-- Số lượng -->
+            <div class="form-group">
+                <label class="label1" for="available_quantity">Số lượng còn lại:</label>
+                <input type="text" id="available_quantity" readonly>
+            
+                <label class="label2" for="quantity">Số Lượng:</label>
+                <input type="number" name="quantity" id="quantity" autocomplete="off">
+                <div class="tooltip" id="quantity-error">
+                    <span class="tooltip-text"></span>
+                </div>
+            </div>            
+
+            <!-- Kho -->
+            <div class="form-group">
+                <label class="label1" for="warehouse">Kho:</label>
+                <select name="warehouse" id="warehouse" class="select-field">
+                    {% for receipt in warehouse %}
+                        <option value="{{ receipt.warehouse_code }}">{{ receipt.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Mã khách hàng -->
+            <div class="form-group">
+                <label class="label1" for="customers">Khách hàng:</label>
+                <select name="customers" id="customers" class="select-field-customers">
+                    {% for customer in customers %}
+                        <option value="{{ customer.customer_code }}">{{ customer.customer_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Mã hợp đồng -->
+            <div class="form-group">
+                <label class="label1" for="employees">Người phụ trách:</label>
+                <select name="employees" id="employees" class="select-field">
+                    {% for employee in employees %}
+                        <option value="{{ employee.employee_code }}">{{ employee.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit">Thêm Mã Hàng</button>
+        </form>
+    </div>
+</body>
+</html>

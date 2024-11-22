@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Sửa Mã Hàng</title>
-    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/edit_product_warehouse_entry.css' %}">
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/add_product_Goods_Receipt.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script src="{% static 'js/QuanLy_Kho/tooltip_product_warehouse_entry.js' %}" defer></script>
+    <script src="{% static 'js/QuanLy_Kho/tooltip_product_Goods_Receipt.js' %}" defer></script>
 </head>
 <body>
     <div class="container">
         <h1>Sửa Mã Hàng</h1>
-        <form method="POST">
+        <form method="POST" id="form">
             {% csrf_token %}
 
             <!-- Mã sản phẩm -->
@@ -22,7 +22,7 @@
                 <label for="product_code">Mã Hàng:</label>
                 <select name="products" id="products" class="select-field">
                     {% for product in products %}
-                        <option value="{{ product.id }}" {% if entry.products.id == product.id %} selected {% endif %}>
+                        <option value="{{ product.product_code }}" {% if entry.products.product_code == product.product_code %} selected {% endif %}>
                             {{ product.product_code }}
                         </option>
                     {% endfor %}
@@ -34,9 +34,9 @@
 
             <!-- Ngày nhập -->
             <div class="form-group">
-                <label for="entry_date">Ngày Nhập:</label>
-                <input type="date" name="entry_date" id="entry_date" value="{{ entry.entry_date|date:'Y-m-d' }}" autocomplete="off">
-                <div class="tooltip" id="entry_date-error">
+                <label for="receipt_date">Ngày Nhập:</label>
+                <input type="date" name="receipt_date" id="receipt_date" value="{{ entry.receipt_date|date:'Y-m-d' }}" autocomplete="off">
+                <div class="tooltip" id="receipt_date-error">
                     <span class="tooltip-text"></span>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <label for="suppliers">Nhà Cung Cấp:</label>
                 <select name="suppliers" id="suppliers" class="select-field">
                     {% for supplier in suppliers %}
-                        <option value="{{ supplier.id }}" {% if entry.suppliers.id == supplier.id %} selected {% endif %}>
+                        <option value="{{ supplier.supplier_code }}" {% if entry.suppliers.supplier_code == supplier.supplier_code %} selected {% endif %}>
                             {{ supplier.supplier_name }}
                         </option>
                     {% endfor %}
@@ -65,17 +65,17 @@
                 </div>
             </div>
 
-            <!-- Số phiếu nhập -->
+            <!-- Kho -->
             <div class="form-group">
-                <label for="warehouse_receipts">Số Phiếu Nhập:</label>
-                <select name="warehouse_receipts" id="warehouse_receipts" class="select-field">
-                    {% for receipt in warehouse_receipts %}
-                        <option value="{{ receipt.id }}" {% if entry.warehouse_receipts.id == receipt.id %} selected {% endif %}>
-                            {{ receipt.warehouse_receipt_number }}
+                <label for="warehouse">Kho:</label>
+                <select name="warehouse" id="warehouse" class="select-field">
+                    {% for receipt in warehouse %}
+                        <option value="{{ receipt.warehouse_code }}" {% if entry.warehouse.warehouse_code == receipt.warehouse_code %} selected {% endif %}>
+                            {{ receipt.name }}
                         </option>
                     {% endfor %}
                 </select>
-                <div class="tooltip" id="warehouse_receipts-error">
+                <div class="tooltip" id="warehouse-error">
                     <span class="tooltip-text"></span>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 <label for="bills">Mã Bill:</label>
                 <select name="bills" id="bills" class="select-field">
                     {% for bill in bills %}
-                        <option value="{{ bill.id }}" {% if entry.bills.id == bill.id %} selected {% endif %}>
+                        <option value="{{ bill.bill_code }}" {% if entry.bills.bill_code == bill.bill_code %} selected {% endif %}>
                             {{ bill.bill_code }}
                         </option>
                     {% endfor %}
@@ -100,7 +100,7 @@
                 <label for="contracts">Số Hợp Đồng:</label>
                 <select name="contracts" id="contracts" class="select-field">
                     {% for contract in contracts %}
-                        <option value="{{ contract.id }}" {% if entry.contracts.id == contract.id %} selected {% endif %}>
+                        <option value="{{ contract.contract_number }}" {% if entry.contracts.contract_number == contract.contract_number %} selected {% endif %}>
                             {{ contract.contract_number }}
                         </option>
                     {% endfor %}

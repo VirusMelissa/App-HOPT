@@ -1,0 +1,126 @@
+#chatButton {
+    z-index: 2;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#chatDialog {
+    z-index: 2;
+    display: none; /* Không hiện tự động */
+    flex-direction: column;
+    justify-content: flex-end;
+    position: fixed;
+    bottom: 20px;
+    right: 80px;
+    width: 450px;
+    height: 400px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 15px;
+    padding-top: 35px;
+}
+
+.chatdialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    width: 100%;
+}
+
+.chat-messages {
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #eef0f1;
+    height: 80%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.chat-message {
+    display: block;  /* Hiển thị mỗi tin nhắn trên một dòng riêng */
+    width: fit-content;  /* Kích thước chiều rộng vừa đủ với nội dung */
+    max-width: 70%;  /* Giới hạn độ rộng tối đa của tin nhắn */
+    padding: 8px 12px;  /* Điều chỉnh padding để màu nền vừa với chữ */
+    border-radius: 10px;
+    word-break: break-word;  /* Tự động xuống dòng khi cần thiết */
+    margin: 5px 0;  /* Thêm khoảng cách 2px giữa các dòng tin nhắn */
+}
+
+.chat-message.sent {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    text-align: left;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.chat-message.received {
+    background-color: #ffffff;
+    align-self: flex-start;
+    text-align: left;
+    font-size: 14px;
+    margin-right: auto;
+}
+
+.chat-input-area {
+    gap: 10px;
+    display: flex;
+}
+
+#chatInput {
+    height: 40px;
+    resize: none;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 80%;
+}
+
+#chatDialog button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 30px;
+}
+
+#chatDialog button:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* Thay đổi nút đóng */
+#chatDialog .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #ff5e57;
+}
+
+#chatDialog .close:hover {
+    color: #ff4040;
+}

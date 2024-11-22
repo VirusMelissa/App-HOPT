@@ -1,0 +1,77 @@
+.sidebar {
+    width: 12%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-image: url('../../images/background1.jpg');
+    /*Đường dẫn đến hình ảnh nền */
+    background-size: cover;
+    /* Đảm bảo hình ảnh phủ kín màn hình */
+    background-position: center;
+    /* Căn giữa hình ảnh */
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li.active {
+    background-color: #34495e;
+}
+
+.sidebar ul li.active a {
+    color: #f1c40f; /* Màu chữ giống với hover */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    width: 100%;
+    /* Thêm khoảng cách chiều cao cho mỗi danh mục */
+}
+
+.sidebar ul li a .icon {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar ul li a .icon i {
+    font-size: 13px;
+    /* Kích thước icon */
+}
+
+.sidebar ul li a .content {
+    width: 100px;
+    height: 24px;
+    display: flex;
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    text-align: left;
+    font-size: 14px;
+    /* Kích thước chữ */
+    font-weight: 600;
+}
+
+.sidebar ul li:hover {
+    background-color: #34495e; /* Màu nền khi hover */
+    border-radius: 8px; /* Tùy chọn thêm để làm cho góc của nền mượt hơn */
+}
+
+.sidebar ul li a:hover {
+    color: #f1c40f;
+}

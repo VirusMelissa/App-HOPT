@@ -2,16 +2,22 @@ from django.shortcuts import render, redirect
 from website.forms import CustomUserCreationForm
 from website.models import Accounts
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 @login_required(login_url='login')
 def UserManagement(request):
     if request.user.role == 'admin':
         search_query = request.GET.get('search', '')
+
+        ROLE_MAPPING = {display: value for value, display in Accounts.ROLE_CHOICES}
+        mapped_role = ROLE_MAPPING.get(search_query, search_query)  # Lấy giá trị ánh xạ hoặc giữ nguyên
+
         sort_by = request.GET.get('sort', 'role')
         sort_order = request.GET.get('order', 'asc')
 
@@ -31,7 +37,7 @@ def UserManagement(request):
                 Q(fullname__icontains=search_query) | 
                 Q(email__icontains=search_query) | 
                 Q(phone_number__icontains=search_query) | 
-                Q(role__icontains=search_query)
+                Q(role__icontains=mapped_role)
             )
 
         users_list = users_list.order_by(order_by)  # Sắp xếp danh sách người dùng
@@ -40,10 +46,27 @@ def UserManagement(request):
         page_number = request.GET.get('page')
         users = paginator.get_page(page_number)
 
+        columns = [
+            {'name': 'Tên người dùng', 'field': 'username'},
+            {'name': 'Họ và tên', 'field': 'fullname'},
+            {'name': 'Email', 'field': 'email'},
+            {'name': 'Số điện thoại', 'field': 'phone_number'},
+            {'name': 'Vai trò', 'field': 'role'},
+        ]
+
+        hidden_fields = [
+            {'name': 'page', 'value': users.number},
+            {'name': 'sort', 'value': sort_by},
+            {'name': 'order', 'value': sort_order}
+        ]
+
         return render(request, 'QuanLy_User/User_management.html', {
             'users': users,
             'sort_by': sort_by,
-            'sort_order': sort_order
+            'sort_order': sort_order,
+            'search': search_query,
+            'hidden_fields': hidden_fields,
+            'columns': columns,
         })
     else:
         raise PermissionDenied
@@ -52,6 +75,11 @@ def UserManagement(request):
 # Tạo người dùng
 login_required(login_url='login')
 def CreateUserView(request):
+    page_number = request.GET.get('page', 1)
+    sort_by = request.GET.get('sort', 'stt')
+    sort_order = request.GET.get('order', 'asc')
+    search = request.GET.get('search', '')
+
     if request.user.role == 'admin':
         username_error = None  # Thêm biến để lưu lỗi tên người dùng
         if request.method == 'POST':
@@ -81,7 +109,8 @@ def CreateUserView(request):
                     role=role
                 )
 
-                return redirect('user_management')  # Chuyển hướng sau khi tạo thành công
+                url = reverse('user_management')  # Thay 'warehouse_entry' bằng tên URL của bạn nếu khác
+                return HttpResponseRedirect(f"{url}?page={page_number}&sort={sort_by}&order={sort_order}&search={search}")
             else:
                 print(form.errors)  # In ra lỗi để kiểm tra nếu form không hợp lệ
         else:
@@ -94,6 +123,11 @@ def CreateUserView(request):
 # Sửa người dùng
 @login_required(login_url='login')
 def EditUserView(request, user_id):
+    page_number = request.GET.get('page', 1)
+    sort_by = request.GET.get('sort', 'stt')
+    sort_order = request.GET.get('order', 'asc')
+    search = request.GET.get('search', '')
+
     if request.user.role == 'admin':
         try:
             user = Accounts.objects.get(id=user_id)
@@ -116,7 +150,8 @@ def EditUserView(request, user_id):
                 if request.user.id == user.id:
                     request.session['role'] = user.role
 
-                return redirect('user_management')
+                url = reverse('user_management')  # Thay 'warehouse_entry' bằng tên URL của bạn nếu khác
+                return HttpResponseRedirect(f"{url}?page={page_number}&sort={sort_by}&order={sort_order}&search={search}")
         else:
             form = CustomUserCreationForm(instance=user)
 
@@ -127,6 +162,11 @@ def EditUserView(request, user_id):
 # Xóa người dùng
 @login_required(login_url='login')
 def DeleteUserView(request, user_id):
+    page_number = request.GET.get('page', 1)
+    sort_by = request.GET.get('sort', 'stt')
+    sort_order = request.GET.get('order', 'asc')
+    search = request.GET.get('search', '')
+
     if request.user.role == 'admin':
         try:
             user = Accounts.objects.get(id=user_id)
@@ -134,7 +174,8 @@ def DeleteUserView(request, user_id):
         except Accounts.DoesNotExist:
             raise Http404("Người dùng không tồn tại")
         
-        return redirect('user_management')
+        url = reverse('user_management')  # Thay 'warehouse_entry' bằng tên URL của bạn nếu khác
+        return HttpResponseRedirect(f"{url}?page={page_number}&sort={sort_by}&order={sort_order}&search={search}")
     else:
         raise PermissionDenied
 

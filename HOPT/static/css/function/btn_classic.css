@@ -1,0 +1,173 @@
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Căn giữa theo chiều ngang */
+    justify-content: center;
+    gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px;
+    background-color: #4CAF50;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+    background-color: #45a049;
+}
+
+.create-btn,
+.update-btn,
+.refresh-btn,
+.home-btn {
+    padding: 8px 16px;
+    /* Khoảng cách giữa hai nút */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.create-btn {
+    background-color: #4CAF50;
+}
+
+.create-btn:hover {
+    background-color: #45a049;
+}
+
+.update-btn {
+    background-color: #4CAF50;
+}
+
+.update-btn:hover {
+    background-color: #45a049;
+}
+
+.refresh-btn {
+    background-color: #FF9800;
+}
+
+.refresh-btn:hover {
+    background-color: #FB8C00;
+}
+
+.home-btn {
+    background-color: #2196F3;
+}
+
+.home-btn:hover {
+    background-color: #1E88E5;
+}
+
+.create-btn:hover,
+.refresh-btn:hover,
+.home-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Tìm kiếm */
+.search-main-container {
+    justify-content: flex-start;
+    align-items: center;
+    /* Căn giữa các phần tử theo chiều dọc */
+    height: 36px;
+}
+
+.search-main-container input[type="text"] {
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.search-main-container button {
+    height: 33px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.search-main-container button:hover {
+    background-color: #45a049;
+}
+
+
+/* Chuyển trang */
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    display: inline-flex; /* Dùng flexbox cho nội dung nút */
+    justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    padding: 8px 12px;
+    margin: 0 5px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 15px; /* Đảm bảo chữ không bị lệch */
+    font-weight: 600;
+    line-height: 1; /* Tránh giãn cách dòng */
+    text-align: center;
+}
+
+
+.pagination-btn:hover {
+    background-color: #333;
+}
+
+/* Định dạng cho thông tin trang */
+
+.page-info {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    margin: 0 5px;
+}
+
+
+/* Phân trang */
+.items-per-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.items-per-page label {
+    font-weight: bold;
+}
+
+.items-per-page select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+}

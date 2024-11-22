@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+}
+
+.container {
+    margin-left: 14%;
+    margin-right: 2%;
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 28px;
+    margin: 0;
+}
+
+.main-content {
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+.search-filter {
+    display: flex;
+    align-items: center;
+    /* Căn giữa các phần tử theo chiều dọc */
+    margin-bottom: 20px;
+}
+
+.table-main-content {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-main-content th,
+.table-main-content td {
+    padding: 12px;
+    border: 2px solid #ccc;
+    text-align: center;
+}
+
+.table-main-content th {
+    background-color: #333;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    /* Xóa gạch dưới */
+}
+
+.table-main-content td {
+    font-size: 12px;
+}
+
+.column-header {
+    color: white;
+    text-decoration: none; /* Xóa gạch dưới cho liên kết trong tiêu đề */
+}
+
+th a {
+    color: white;
+    text-decoration: none;
+}
+
+th a:hover {
+    text-decoration: none;
+    color: rgba(188, 187, 187, 0.916);
+}
+
+
+/* Đặt độ rộng cụ thể cho từng cột */
+
+.STT-column { width: 2%;}
+.products__product_code-column { width: 10%; }
+.receipt_date-column { width: 10%; }
+.quantity-column { width: 8%; }
+.suppliers__supplier_name-column { width: 28%; }
+.warehouse__name-column { width: 10%; }
+.bills__bill_code-column { width: 10%; }
+.contracts__contract_number-column { width: 10%; }
+.action-column { width: 12%; }
+
+.sub-content {
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+.year-selector {
+    margin-bottom: 10px;
+}
+
+.sub-content-table-wrapper {
+    max-height: calc(5 * 55px + 20px);
+    min-height: calc(1 * 55px + 20px);
+    /* 5 dòng với mỗi dòng 40px, cộng thêm padding/margin nếu có */
+    overflow-y: auto;
+    /* Kích hoạt thanh cuộn dọc */
+}
+
+.sub-content-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    /* Đảm bảo bảng không mở rộng vượt quá kích thước bao quanh */
+}
+
+.sub-content-table-wrapper {
+    max-height: calc(5 * 55px + 20px);
+    overflow-y: auto;
+    margin-bottom: 40px;
+}
+
+.table-monthly-totals {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-monthly-totals thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    /* Giữ dòng tiêu đề phía trên các dòng khác */
+}
+
+.table-monthly-totals th{
+    background-color: #333;
+    padding: 12px;
+    border: 2px solid #ccc;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+}
+
+.table-monthly-totals td {
+    border: 2px solid #ccc;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+

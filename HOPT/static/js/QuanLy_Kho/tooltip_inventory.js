@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const inputs = document.querySelectorAll('.form-group input, .form-group select'); // Lấy tất cả các input và select trong form
-    const form = document.getElementById('add-product-form'); // Thay đổi ID này nếu cần
+    const form = document.getElementById('form'); // Thay đổi ID này nếu cần
 
     // Khởi tạo kiểm tra lỗi ban đầu cho tất cả các trường
     inputs.forEach(input => {
@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Thêm sự kiện focus cho tất cả các input
         input.addEventListener('focus', () => {
+            validateInput(input, tooltip);
+        });
+
+        input.addEventListener('input', () => {
             validateInput(input, tooltip);
         });
     });
@@ -41,29 +45,32 @@ document.addEventListener('DOMContentLoaded', function () {
     function validateInput(input, tooltip) {
         const value = input.value.trim();
         let errorMessage = '';
-
+    
         // Kiểm tra các trường cụ thể
         switch (input.name) {
-            case 'quantity':
+            case 'min_inventory':
                 if (!value) {
-                    errorMessage = 'Số lượng không được để trống.';
-                } else if (isNaN(value) || value <= 0) {
-                    errorMessage = 'Số lượng phải là một số dương.';
+                    errorMessage = 'Mức tồn tối thiểu không được để trống.';
+                } else if (isNaN(value) || value < 0) {
+                    errorMessage = 'Mức tồn tối thiểu phải là một số dương.';
                 }
                 break;
-            case 'entry_date':
+            case 'inventory_valuation':
                 if (!value) {
-                    errorMessage = 'Ngày nhập không được để trống.';
+                    errorMessage = 'Tồn kho TT không được để trống.';
+                } else if (isNaN(value) || value < 0) {
+                    errorMessage = 'Tồn kho TT phải là một số dương.';
                 }
-                break;
         }
-
-        // Hiển thị hoặc ẩn tooltip
-        if (errorMessage) {
-            tooltip.querySelector('.tooltip-text').textContent = errorMessage;
-            tooltip.classList.add('show');
-        } else {
-            tooltip.classList.remove('show');
+    
+        // Hiển thị hoặc ẩn tooltip nếu tooltip tồn tại
+        if (tooltip) {
+            if (errorMessage) {
+                tooltip.querySelector('.tooltip-text').textContent = errorMessage;
+                tooltip.classList.add('show');
+            } else {
+                tooltip.classList.remove('show');
+            }
         }
     }
 });

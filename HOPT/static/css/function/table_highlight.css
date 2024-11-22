@@ -1,0 +1,17 @@
+.red-highlight {
+    background-color: #ffcc99; /* Cam nhạt */
+    color: #333; /* Màu chữ tối */
+    font-weight: bold;
+}
+
+.blue-highlight {
+    background-color: #b2f0e6; /* Xanh mint */
+    color: #333;
+    font-weight: bold;
+}
+
+.green-highlight {
+    background-color: #d9f7be; /* Xanh pastel */
+    color: #333;
+    font-weight: bold;
+}

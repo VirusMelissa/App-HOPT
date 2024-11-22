@@ -26,13 +26,11 @@ body {
 }
 
 /* Tiêu đề của form */
-h2 {
-    font-size: 28px;
-    padding-top: auto;
-    margin-bottom: 30px;
+h1 {
+    text-align: center; /* Căn giữa nội dung */
+    font-size: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #2193b0;
-    text-align: center;
+    margin-bottom: 30px;
 }
 
 /* Định dạng cho label và textinput trên cùng 1 hàng */
@@ -77,13 +75,15 @@ select {
 
 /* Định nghĩa cho Select2 để lấy lại viền và chiều cao */
 .select2-container .select2-selection--single {
-    height: 38px !important; /* Đặt chiều cao giống như các trường nhập */
+    height: 40px !important; /* Đặt chiều cao giống như các trường nhập */
+    font-size: 18px;
+    font-weight: 500;
     border: 2px solid #2193b0 !important; /* Đặt viền cho select2 */
     border-radius: 5px !important; /* Đảm bảo góc bo giống như các trường nhập */
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px !important; /* Căn giữa nội dung trong select */
+    line-height: 40px !important; /* Căn giữa nội dung trong select */
 }
 
 /* Đặt viền cho select2 khi focus */
@@ -92,7 +92,7 @@ select {
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 38px !important; /* Đặt chiều cao cho nút mũi tên */
+    height: 40px !important; /* Đặt chiều cao cho nút mũi tên */
     display: flex; /* Sử dụng flexbox để căn giữa */
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; /* Căn giữa theo chiều ngang */

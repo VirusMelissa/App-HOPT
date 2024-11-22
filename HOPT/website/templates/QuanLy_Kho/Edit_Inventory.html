@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa Tồn Kho</title>
+    <link rel="stylesheet" href="{% static 'css/QuanLy_Kho/edit_inventory.css' %}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script src="{% static 'js/QuanLy_Kho/tooltip_inventory.js' %}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Sửa Dữ Liệu Tồn Kho</h1>
+        <form method="POST" id="form">
+            {% csrf_token %}
+            <div class="form-container">
+                
+                <!-- Row 1: Năm -->
+                <div class="form-group-row1">
+                    <label class="label" for="years">Năm:</label>
+                    <input type="number" name="years" id="years" value="{{ inventory.years }}" autocomplete="off" readonly>
+                </div>
+        
+                <!-- Row 2: Mã hàng và Kho -->
+                <div class="form-group-row2">
+                    <div class="form-group">
+                        <label class="label" for="product_code">Mã Hàng:</label>
+                        <select name="products" id="products" class="select-field">
+                            {% for product in products %}
+                                <option value="{{ product.product_code }}" {% if inventory.products.product_code == product.product_code %} selected {% endif %}>
+                                    {{ product.product_code }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="warehouse">Kho:</label>
+                        <select name="warehouse" id="warehouse" class="select-field">
+                            {% for inventory in warehouse %}
+                                <option value="{{ inventory.warehouse_code }}" {% if inventory.warehouse.warehouse_code == inventory.warehouse_code %} selected {% endif %}>
+                                    {{ inventory.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+        
+                <!-- Row 3: Tồn trước đó -->
+                <div class="form-group-row1">
+                    <label class="label" for="previous_inventory">Tồn trước đó:</label>
+                    <input type="number" name="previous_inventory" id="previous_inventory" value="{{ inventory.previous_inventory }}" autocomplete="off" readonly>
+                </div>
+        
+                <!-- Row 4: Tổng nhập và Tổng xuất -->
+                <div class="form-group-row2">
+                    <div class="form-group">
+                        <label class="label" for="total_received">Tổng nhập:</label>
+                        <input type="number" name="total_received" id="total_received" value="{{ inventory.total_received }}" autocomplete="off" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="total_issued">Tổng xuất:</label>
+                        <input type="number" name="total_issued" id="total_issued" value="{{ inventory.total_issued }}" autocomplete="off" readonly>
+                    </div>
+                </div>
+        
+                <!-- Row 5: Tồn hiện tại -->
+                <div class="form-group-row1">
+                    <label class="label" for="current_inventory">Tồn hiện tại:</label>
+                    <input type="number" name="current_inventory" id="current_inventory" value="{{ inventory.current_inventory }}" autocomplete="off" readonly>
+                </div>
+        
+                <!-- Row 6: Mức tồn tối thiểu và Tồn kho TT -->
+                <div class="form-group-row1">
+                    <label class="label" for="min_inventory">Mức tồn tối thiểu:</label>
+                    <input type="number" name="min_inventory" id="min_inventory" value="{{ inventory.min_inventory }}" autocomplete="off">
+                    <div class="tooltip" id="min_inventory-error">
+                        <span class="tooltip-text"></span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit">Cập Nhật Tồn kho</button>
+        </form>
+             
+    </div>
+</body>
+</html>

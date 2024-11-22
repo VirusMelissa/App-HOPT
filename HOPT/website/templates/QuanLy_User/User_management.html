@@ -13,6 +13,11 @@
     <h2>Quản Lý Người Dùng</h2>
     <div class="search-container">
         <form method="get" action="{% url 'user_management' %}">
+            {% for field in hidden_fields %}
+                {% if field.value %}
+                    <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                {% endif %}
+            {% endfor %}
             <input type="text" name="search" placeholder="Nhập từ khóa..." value="{{ request.GET.search }}">
             <button type="submit">Tìm kiếm</button>
         </form>
@@ -21,11 +26,11 @@
     <table>
         <thead>
             <tr>
-                <th class="user-column"><a href="?sort=username&order={% if sort_by == 'username' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">Tên người dùng</a></th>
-                <th class="fullname-column"><a href="?sort=fullname&order={% if sort_by == 'fullname' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">Họ và tên</a></th>
-                <th class="email-column"><a href="?sort=email&order={% if sort_by == 'email' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">Email</a></th>
-                <th class="phone-column"><a href="?sort=phone_number&order={% if sort_by == 'phone_number' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">Số điện thoại</a></th>
-                <th class="role-column"><a href="?sort=role&order={% if sort_by == 'role' and sort_order == 'asc' %}desc{% else %}asc{% endif %}">Vai trò</a></th>
+                {% for column in columns %}
+                    <th class="{{ column.field }}-column">
+                        <a href="?{% if users.number %}page={{ users.number }}{% endif %}&sort={{ column.field }}&order={% if sort_by == column.field and sort_order == 'asc' %}desc{% else %}asc{% endif %}{% if search %}&search={{ search }}{% endif %}">{{ column.name }}</a>
+                    </th>
+                {% endfor %}
                 <th class="action-column">Thao tác</th>
             </tr>
         </thead>
@@ -38,31 +43,32 @@
                 <td>{{ user.phone_number }}</td>
                 <td>{{ user.get_role_display }}</td>
                 <td>
-                    <a href="{% url 'edit_user' user.id %}" class="edit-btn">Sửa</a>
-                    <a href="{% url 'delete_user' user.id %}" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xóa</a>
+                    <a href="{% url 'edit_user' user.id %}?{% if users.number %}page={{ users.number }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="edit-btn">Sửa</a>
+                    <a href="{% url 'delete_user' user.id %}?{% if users.number %}page={{ users.number }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="delete-btn" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xóa</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <!-- Phân trang -->
+    <!-- Chuyển trang -->
     <div class="pagination">
         {% if users.has_previous %}
-        <a href="?page=1&sort={{ sort_by }}&order={{ sort_order }}" class="pagination-btn">&#9664;&#9664; Đầu</a>
-        <!-- chuyển trang & tính năng sắp xếp-->
-        <a href="?page={{ users.previous_page_number }}&sort={{ sort_by }}&order={{ sort_order }}" class="pagination-btn">&#9664; Trước</a>
-        <!-- chuyển trang & tính năng sắp xếp-->
+        <a href="?page=1{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="pagination-btn">&#9664;&#9664; Đầu</a>
+        <a href="?page={{ users.previous_page_number }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="pagination-btn">&#9664; Trước</a>
         {% endif %}
 
-        <span class="page-info">Trang {{ users.number }} / {{ users.paginator.num_pages }}</span> {% if users.has_next %}
-        <a href="?page={{ users.next_page_number }}&sort={{ sort_by }}&order={{ sort_order }}" class="pagination-btn">Tiếp &#9654;</a>
-        <a href="?page={{ users.paginator.num_pages }}&sort={{ sort_by }}&order={{ sort_order }}" class="pagination-btn">Cuối &#9654;&#9654;</a> {% endif %}
+        <span class="page-info">Trang {{ users.number }} / {{ users.paginator.num_pages }}</span> 
+        
+        {% if users.has_next %}
+        <a href="?page={{ users.next_page_number }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="pagination-btn">Tiếp &#9654;</a>
+        <a href="?page={{ users.paginator.num_pages }}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="pagination-btn">Cuối &#9654;&#9654;</a> 
+        {% endif %}
     </div>
 
     <!-- Nút tạo người dùng mới, tải lại trang và quay về trang chủ -->
     <div class="btn-container">
-        <a href="{% url 'create_user' %}" class="create-btn">Tạo người dùng mới</a>
+        <a href="{% url 'create_user' %}?{% if users.number %}page={{ users.number }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}{% if sort_order %}&order={{ sort_order }}{% endif %}{% if search %}&search={{ search }}{% endif %}" class="create-btn">Tạo người dùng mới</a>
         <a href="{% url 'user_management' %}" class="refresh-btn">Tải lại trang</a>
         <a href="{% url 'index' %}" class="home-btn">Quay về trang chủ</a>
     </div>

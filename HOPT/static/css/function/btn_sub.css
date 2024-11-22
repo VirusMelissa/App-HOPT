@@ -1,0 +1,48 @@
+.search-sub-container {
+    margin: 20px 0;
+}
+
+.search-sub-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.search-sub-container button {
+    height: 33px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.search-sub-container button:hover {
+    background-color: #45a049;
+}
+
+.year-sub-selector {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.year-sub-selector select {
+    height: 26px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 5px;
+    color: white;
+    background-color: #4CAF50;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.year-sub-selector select:hover {
+    background-color: #45a049;
+}

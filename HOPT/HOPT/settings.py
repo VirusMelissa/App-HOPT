@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-mqz9kps-p2c_8$sbegp0ubztfehi7(w*$f*z@b!4ygb2+d_--6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'dx.hoangphucthanh.vn',  # Địa chỉ IP cục bộ
+]
 
 
 # Application definition
@@ -37,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'debug_toolbar',
     'website',
 ]
 
@@ -50,7 +54,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+# INTERNAL_IPS = [
+#     '127.0.0.1',
+#     'localhost',
+# ]
 
 ROOT_URLCONF = 'HOPT.urls'
 
@@ -87,7 +97,13 @@ DATABASES = {
     }
 }
 
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 60 * 60,  # Cache trong 1 giờ
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
